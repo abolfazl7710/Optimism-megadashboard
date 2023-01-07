@@ -15,7 +15,7 @@ st.write("""
  The data used was obtained from flipsidecrypto and queries link are in pages.
  All the codes of this web app can be seen in this link (Github). 
  
- https://github.com/abolfazl7710/Terradash
+ https://github.com/abolfazl7710/Optimism-megadashboard
 """
 )
 st.write("""
