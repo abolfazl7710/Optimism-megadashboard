@@ -153,50 +153,6 @@ limit 10
 """
 df7 = querying_pagination(df7_query)
 
-#flippers 1 week
-df81_query="""
-with main1 as (select 
-project_name,
-block_timestamp,
-buyer_address
-from optimism.core.ez_nft_sales a join optimism.core.dim_labels b on b.address=a.nft_address
-),main2 as (select 
-project_name,
-block_timestamp,
-seller_address
-from optimism.core.ez_nft_sales a join optimism.core.dim_labels b on b.address=a.nft_address
-)
-select 
-a.block_timestamp::date as date, 
-count(distinct seller_address) as count_flippers
-from main2 a inner join main1 b on a.seller_address = b.buyer_address and a.project_name = b.project_name
-where datediff(day, a.block_timestamp, b.block_timestamp) <= 7
-group by 1
-"""
-df81 = querying_pagination(df81_query)
-
-
-#flippers 1 month
-df9_query="""
-with main1 as (select 
-project_name,
-block_timestamp,
-buyer_address
-from optimism.core.ez_nft_sales a join optimism.core.dim_labels b on b.address=a.nft_address
-),main2 as (select 
-project_name,
-block_timestamp,
-seller_address
-from optimism.core.ez_nft_sales a join optimism.core.dim_labels b on b.address=a.nft_address
-)
-select 
-a.block_timestamp::date as date, 
-count(distinct seller_address) as count_flippers
-from main2 a inner join main1 b on a.seller_address = b.buyer_address and a.project_name = b.project_name
-where datediff(day, a.block_timestamp, b.block_timestamp) <= 30
-group by 1
-"""
-df9 = querying_pagination(df9_query)
 
 st.write("""
  # Overal nft sale activity #
@@ -246,15 +202,6 @@ st.subheader('Daily volume (USD) of nft sales')
 st.caption('Daily volume (USD) of nft sales')
 st.bar_chart(df, x='date', y = 'volume_usd', width = 400, height = 400)
 
-st.subheader('Daily flippers count who sold nfts less than one week / month on Optimism custom NFT.')
-cc1, cc2 = st.columns([1, 1])
-
-with cc1:
-  st.caption('Daily flippers count who sold nfts less than one week on Optimism custom NFT.')
-  st.line_chart(df81, x='date', y = 'count_flippers', width = 400, height = 400)
-with cc2:
-  st.caption('Daily flippers count who sold nfts less than one week on Optimism custom NFT.')
-  st.line_chart(df9, x='date', y = 'count_flippers', width = 400, height = 400)
 
 st.write("""
  # User categorize by count and volume (USD) of nft sale #
