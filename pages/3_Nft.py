@@ -154,7 +154,7 @@ limit 10
 df7 = querying_pagination(df7_query)
 
 #flippers 1 week
-df8_query="""
+df81_query="""
 with main1 as (select 
 project_name,
 block_timestamp,
@@ -173,7 +173,8 @@ from main2 a inner join main1 b on a.seller_address = b.buyer_address and a.proj
 where datediff(day, a.block_timestamp, b.block_timestamp) <= 7
 group by 1
 """
-df8 = querying_pagination(df8_query)
+df81 = querying_pagination(df81_query)
+
 
 #flippers 1 month
 df9_query="""
@@ -250,7 +251,7 @@ cc1, cc2 = st.columns([1, 1])
 
 with cc1:
   st.caption('Daily flippers count who sold nfts less than one week on Optimism custom NFT.')
-  st.line_chart(df8, x='date', y = 'count_flippers', width = 400, height = 400)
+  st.line_chart(df81, x='date', y = 'count_flippers', width = 400, height = 400)
 with cc2:
   st.caption('Daily flippers count who sold nfts less than one week on Optimism custom NFT.')
   st.line_chart(df9, x='date', y = 'count_flippers', width = 400, height = 400)
